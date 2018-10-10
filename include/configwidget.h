@@ -98,8 +98,8 @@ public:
     double WheelThickness;
     double Wheel1Angle;
     double Wheel2Angle;
-    double Wheel3Angle;
-    double Wheel4Angle;
+//    double Wheel3Angle;
+//    double Wheel4Angle;
     //physical settings
     double BodyMass;
     double WheelMass;

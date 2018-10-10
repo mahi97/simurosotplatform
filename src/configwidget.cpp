@@ -238,10 +238,10 @@ void ConfigWidget::loadRobotSettings(QString team)
     robotSettings.KickerHeight = robot_settings->value("Geometery/KickerHeight", 0.04).toDouble();
     robotSettings.WheelRadius = robot_settings->value("Geometery/WheelRadius", 0.0325).toDouble();
     robotSettings.WheelThickness = robot_settings->value("Geometery/WheelThickness", 0.005).toDouble();
-    robotSettings.Wheel1Angle = robot_settings->value("Geometery/Wheel1Angle", 60).toDouble();
-    robotSettings.Wheel2Angle = robot_settings->value("Geometery/Wheel2Angle", 135).toDouble();
-    robotSettings.Wheel3Angle = robot_settings->value("Geometery/Wheel3Angle", 225).toDouble();
-    robotSettings.Wheel4Angle = robot_settings->value("Geometery/Wheel4Angle", 300).toDouble();
+    robotSettings.Wheel1Angle = robot_settings->value("Geometery/Wheel1Angle", 0).toDouble();
+    robotSettings.Wheel2Angle = robot_settings->value("Geometery/Wheel2Angle", 180).toDouble();
+//    robotSettings.Wheel3Angle = robot_settings->value("Geometery/Wheel3Angle", 225).toDouble();
+//    robotSettings.Wheel4Angle = robot_settings->value("Geometery/Wheel4Angle", 300).toDouble();
 
     robotSettings.BodyMass  = robot_settings->value("Physics/BodyMass", 2).toDouble();
     robotSettings.WheelMass = robot_settings->value("Physics/WheelMass", 0.2).toDouble();

@@ -474,9 +474,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     case 's': case 'S':dBodyAddForce(ssl->ball->body,0,-BallForce,0);break;
     case 'd': case 'D':dBodyAddForce(ssl->ball->body, BallForce,0,0);break;
     case 'a': case 'A':dBodyAddForce(ssl->ball->body,-BallForce,0,0);break;
-    case 'k': case 'K': ssl->robots[R]->kicker->kick(8,0);break;
-    case 'l': case 'L': ssl->robots[R]->kicker->kick(3,3);break;
-    case 'j': case 'J': ssl->robots[R]->kicker->toggleRoller();break;
+//    case 'k': case 'K': ssl->robots[R]->kicker->kick(8,0);break;
+//    case 'l': case 'L': ssl->robots[R]->kicker->kick(3,3);break;
+//    case 'j': case 'J': ssl->robots[R]->kicker->toggleRoller();break;
     case 'i': case 'I': dBodySetLinearVel(ssl->ball->body,2.0,0,0);dBodySetAngularVel(ssl->ball->body,0,2.0/cfg->BallRadius(),0);break;
     case ';':
         if (!kickingball)

@@ -31,7 +31,6 @@ class Robot
     PWorld* w;
     PBall* m_ball;
     dReal m_x,m_y,m_z;
-    dReal m_r,m_g,m_b;
     dReal m_dir;
     int m_rob_id;
     bool firsttime;
@@ -39,15 +38,14 @@ class Robot
 public:    
     ConfigWidget* cfg;
     dSpaceID space;
-    PCylinder* chassis;
+    PBox* chassis;
     PBall* dummy;
     dJointID dummy_to_chassis;
-    PBox* boxes[3];    
     bool on;
     //these values are not controled by this class
     bool selected;
     dReal select_x,select_y,select_z;    
-    QImage *img,*number;
+    QImage *img;
     class Wheel
     {
       public:
@@ -59,34 +57,32 @@ public:
         PCylinder* cyl;
         dReal speed;
         Robot* rob;
-    } *wheels[4];
-    class Kicker
-    {
-      private:
-        bool kicking;
-        int rolling;
-        int kickstate;
-        dReal m_kickspeed,m_kicktime;
-      public:
-        Kicker(Robot* robot);
-        void step();
-        void kick(dReal kickspeedx, dReal kickspeedz);
-        void setRoller(int roller);
-        int getRoller();
-        void toggleRoller();
-        bool isTouchingBall();
-        dJointID joint;
-        PBox* box;
-        Robot* rob;
-    } *kicker;
+    } *wheels[2];
+//    class Kicker
+//    {
+//      private:
+//        bool kicking;
+//        int rolling;
+//        int kickstate;
+//        dReal m_kickspeed,m_kicktime;
+//      public:
+//        Kicker(Robot* robot);
+//        void step();
+//        void kick(dReal kickspeedx, dReal kickspeedz);
+//        void setRoller(int roller);
+//        int getRoller();
+//        void toggleRoller();
+//        bool isTouchingBall();
+//        dJointID joint;
+//        PBox* box;
+//        Robot* rob;
+//    } *kicker;
 
     Robot(PWorld* world,PBall* ball,ConfigWidget* _cfg,dReal x,dReal y,dReal z,dReal r,dReal g,dReal b,int rob_id,int wheeltexid,int dir);
     ~Robot();
     void step();
-    void drawLabel();
     void setSpeed(int i,dReal s); //i = 0,1,2,3
     void setSpeed(dReal vx, dReal vy, dReal vw);
-    dReal getSpeed(int i);
     void incSpeed(int i,dReal v);
     void resetSpeeds();
     void resetRobot();
@@ -94,8 +90,6 @@ public:
     dReal getDir();
     void setXY(dReal x,dReal y);
     void setDir(dReal ang);
-    int getID();
-    PBall* getBall();
 };
 
 

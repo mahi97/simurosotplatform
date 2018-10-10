@@ -35,7 +35,7 @@ Copyright (C) 2011, Parsian Robotic Center (eew.aut.ac.ir/~parsian/grsim)
 
 
 #define ROBOT_GRAY 0.4
-#define WHEEL_COUNT 4
+#define WHEEL_COUNT 2
 
 SSLWorld* _w;
 dReal randn_notrig(dReal mu=0.0, dReal sigma=1.0);
@@ -217,8 +217,8 @@ SSLWorld::SSLWorld(QGLWidget* parent,ConfigWidget* _cfg,RobotsFomation *form1,Ro
     p->addObject(ground);
     p->addObject(ball);
     p->addObject(ray);
-    for (int i=0;i<10;i++)
-        p->addObject(walls[i]);
+    for (auto &wall : walls)
+        p->addObject(wall);
     const int wheeltexid = 4 * cfg->Robots_Count() + 12 + 1 ; //37 for 6 robots
 
 
@@ -272,21 +272,20 @@ SSLWorld::SSLWorld(QGLWidget* parent,ConfigWidget* _cfg,RobotsFomation *form1,Ro
     ballwithkicker.surface.mu = fric(cfg->robotSettings.Kicker_Friction);
     ballwithkicker.surface.slip1 = 5;
     
-    for (int i = 0; i < WALL_COUNT; i++)
-        p->createSurface(ball, walls[i])->surface = ballwithwall.surface;
+    for (auto &wall : walls)
+        p->createSurface(ball, wall)->surface = ballwithwall.surface;
     
     for (int k = 0; k < 2 * cfg->Robots_Count(); k++)
     {
         p->createSurface(robots[k]->chassis,ground);
-        for (int j = 0; j < WALL_COUNT; j++)
-            p->createSurface(robots[k]->chassis,walls[j]);
+        for (auto &wall : walls)
+            p->createSurface(robots[k]->chassis, wall);
         p->createSurface(robots[k]->dummy,ball);
         //p->createSurface(robots[k]->chassis,ball);
-        p->createSurface(robots[k]->kicker->box,ball)->surface = ballwithkicker.surface;
-        for (int j = 0; j < WHEEL_COUNT; j++)
-        {
-            p->createSurface(robots[k]->wheels[j]->cyl,ball);
-            PSurface* w_g = p->createSurface(robots[k]->wheels[j]->cyl,ground);
+//        p->createSurface(robots[k]->kicker->box,ball)->surface = ballwithkicker.surface;
+        for (auto &wheel : robots[k]->wheels) {
+            p->createSurface(wheel->cyl,ball);
+            PSurface* w_g = p->createSurface(wheel->cyl,ground);
             w_g->surface=wheelswithground.surface;
             w_g->usefdir1=true;
             w_g->callback=wheelCallBack;
@@ -296,7 +295,7 @@ SSLWorld::SSLWorld(QGLWidget* parent,ConfigWidget* _cfg,RobotsFomation *form1,Ro
             if (k != j)
             {
                 p->createSurface(robots[k]->dummy,robots[j]->dummy); //seams ode doesn't understand cylinder-cylinder contacts, so I used spheres
-                p->createSurface(robots[k]->chassis,robots[j]->kicker->box);
+//                p->createSurface(robots[k]->chassis,robots[j]->kicker->box);
             }
         }
     }
@@ -535,30 +534,30 @@ void SSLWorld::recvActions()
                         dReal vw = 0;if (packet.commands().robot_commands(i).has_velangular()) vw = packet.commands().robot_commands(i).velangular();
                         robots[id]->setSpeed(vx, vy, vw);
                     }
-                    dReal kickx = 0 , kickz = 0;
-                    bool kick = false;
-                    if (packet.commands().robot_commands(i).has_kickspeedx())
-                    {
-                        kick = true;
-                        kickx = packet.commands().robot_commands(i).kickspeedx();
-                    }
-                    if (packet.commands().robot_commands(i).has_kickspeedz())
-                    {
-                        kick = true;
-                        kickz = packet.commands().robot_commands(i).kickspeedz();
-                    }
-                    if (kick && ((kickx>0.0001) || (kickz>0.0001)))
-                        robots[id]->kicker->kick(kickx,kickz);
-                    int rolling = 0;
-                    if (packet.commands().robot_commands(i).has_spinner())
-                    {
-                        if (packet.commands().robot_commands(i).spinner()) rolling = 1;
-                    }
-                    robots[id]->kicker->setRoller(rolling);
-
+//                    dReal kickx = 0 , kickz = 0;
+//                    bool kick = false;
+//                    if (packet.commands().robot_commands(i).has_kickspeedx())
+//                    {
+//                        kick = true;
+//                        kickx = packet.commands().robot_commands(i).kickspeedx();
+//                    }
+//                    if (packet.commands().robot_commands(i).has_kickspeedz())
+//                    {
+//                        kick = true;
+//                        kickz = packet.commands().robot_commands(i).kickspeedz();
+//                    }
+//                    if (kick && ((kickx>0.0001) || (kickz>0.0001)))
+//                        robots[id]->kicker->kick(kickx,kickz);
+//                    int rolling = 0;
+//                    if (packet.commands().robot_commands(i).has_spinner())
+//                    {
+//                        if (packet.commands().robot_commands(i).spinner()) rolling = 1;
+//                    }
+//                    robots[id]->kicker->setRoller(rolling);
+//
                     char status = 0;
                     status = k;
-                    if (robots[id]->kicker->isTouchingBall()) status = status | 8;
+//                    if (robots[id]->kicker->isTouchingBall()) status = status | 8;
                     if (robots[id]->on) status = status | 240;
                     if (team == 0)
                         blueStatusSocket->writeDatagram(&status,1,sender,cfg->BlueStatusSendPort());
